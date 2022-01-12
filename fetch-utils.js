@@ -3,9 +3,37 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsI
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+export async function getWorkshops() {
+    const response = await client
+        .from('workshops')
+        .select('*, participants (*)')
+        .match({ 'participants.user_id': client.auth.session().user.id });
 
+    return checkError(response);
+}
 
+export async function deleteParticipant(id) {
+    const response = await client
+        .from('participants')
+        .delete()
+        .match({ id: id })
+        .single();
 
+    return checkError(response);
+}
+
+export async function createParticipant(participant) {
+    const response = await client
+        .from('participants')
+        .insert({
+            ...participant,
+            user_id: client.auth.session().user.id,
+        });
+
+    return checkError(response);
+}
+
+// everything below here is from the template
 export async function getUser() {
     return client.auth.session();
 }
@@ -43,4 +71,19 @@ export async function logout() {
 
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
+}
+
+function renderParticipant(participant) {
+    // create a p tag
+    const participantEl = document.createElement('p');
+    // add the 'bunny' css class no matter what
+    participantEl.classList.add('participant');
+
+    participantEl.textContent = participant.name;
+
+    participantEl.addEventListener('click', async() => {
+        await deleteParticipant(participant.id);
+        const updatedWorkshops = await getWorkshops();
+        displayWorkshops(updatedWorkshops);
+    });
 }

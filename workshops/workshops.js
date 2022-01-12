@@ -1,4 +1,9 @@
-import { checkAuth, logout } from '../fetch-utils.js';
+import { 
+    checkAuth,
+    logout,
+    deleteParticipant,
+    getWorkshops
+} from '../fetch-utils.js';
 
 checkAuth();
 
@@ -16,5 +21,6 @@ window.addEventListener('load', async() => {
 });
 
 function displayWorkshops(workshops) {
+    workshopsEl.textContent = '';
     
 }

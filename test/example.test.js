@@ -1,18 +1,22 @@
 // IMPORT MODULES under test here:
-// import { example } from '../example.js';
+import { renderParticipant } from '../fetch-utils.js';
 
-const test = QUnit.test;
+const { test, skip } = QUnit;
 
-test('time to test a function', (expect) => {
+const participant = [
+    { name: 'steve', workshop_id: 1 }
+];
+
+test('should return a DOM node for a participant', (expect) => {
     //Arrange
     // Set up your arguments and expectations
-    const expected = true;
+    const expected = [{ name: 'steve', workshop_id: 1 }];
     
     //Act 
     // Call the function you're testing and set the result to a const
-    const actual = true;
+    const actual = renderParticipant(participant);
 
     //Expect
     // Make assertions about what is expected versus the actual result
-    expect.equal(actual, expected);
+    expect.deepEqual(actual, expected);
 });
