@@ -1,20 +1,20 @@
-// IMPORT MODULES under test here:
-import { 
-    deleteParticipant,
-    // displayWorkshops,
-    getWorkshops 
-} from '../fetch-utils.js';
+// // IMPORT MODULES under test here:
+// import { 
+//     deleteParticipant,
+//     renderParticipant,
+//     getWorkshops 
+// } from '../fetch-utils.js';
 
-const { test, skip } = QUnit;
-
-const participant = [
-    { name: 'steve', workshop_id: 1 }
-];
+const test = QUnit.test;
 
 test('should return a DOM node for a participant', (expect) => {
     //Arrange
+    const participant = {
+        name: 'steve',
+        workshop_id: 1
+    };
     // Set up your arguments and expectations
-    const expected = [{ name: 'steve', workshop_id: 1 }];
+    const expected = `<div><p>steve</p></div>`;
     
     //Act 
     // Call the function you're testing and set the result to a const
@@ -22,20 +22,15 @@ test('should return a DOM node for a participant', (expect) => {
 
     //Expect
     // Make assertions about what is expected versus the actual result
-    expect.deepEqual(actual, expected);
+    expect.equal(actual.outerHTML, expected);
 });
 
 export function renderParticipant(participant) {
-    // create a p tag
-    const participantEl = document.createElement('p');
-    // add the 'participant' css class no matter what
-    participantEl.classList.add('participant');
+    const div = document.createElement('div');
+    const p = document.createElement('p');
 
-    participantEl.textContent = participant.name;
+    p.textContent = participant.name;
+    div.append(p);
 
-    participantEl.addEventListener('click', async() => {
-        await deleteParticipant(participant.id);
-        const updatedWorkshops = await getWorkshops();
-        displayWorkshops(updatedWorkshops);
-    });
+    return div;
 }

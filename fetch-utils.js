@@ -72,4 +72,3 @@ export async function logout() {
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
-
