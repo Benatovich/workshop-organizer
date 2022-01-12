@@ -1,7 +1,10 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://uyyvpeoqhxhimqsupbgh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MTk0NDg0NSwiZXhwIjoxOTU3NTIwODQ1fQ.0mmIevvuBPwfS7g9ZbeM9G33XQflNxmitkXx8Ayt3zw';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+
 
 export async function getUser() {
     return client.auth.session();
