@@ -2,9 +2,9 @@ import {
     checkAuth,
     logout,
     deleteParticipant,
-    getWorkshops,
-    renderParticipant
+    getWorkshops
 } from '../fetch-utils.js';
+import { renderParticipant } from '../render-utils.js';
 
 
 checkAuth();
