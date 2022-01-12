@@ -3,7 +3,7 @@ import {
     getWorkshops,
     checkAuth,
     logout
-} from '../fetch-utils';
+} from '../fetch-utils.js';
 
 const form = document.querySelector('.participant-form');
 const logoutButton = document.getElementById('logout');
