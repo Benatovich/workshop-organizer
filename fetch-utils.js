@@ -1,8 +1,39 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://uyyvpeoqhxhimqsupbgh.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MTk0NDg0NSwiZXhwIjoxOTU3NTIwODQ1fQ.0mmIevvuBPwfS7g9ZbeM9G33XQflNxmitkXx8Ayt3zw';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+export async function getWorkshops() {
+    const response = await client
+        .from('workshops')
+        .select('*, participants (*)')
+        .match({ 'participants.user_id': client.auth.session().user.id });
+
+    return checkError(response);
+}
+
+export async function deleteParticipant(id) {
+    const response = await client
+        .from('participants')
+        .delete()
+        .match({ id: id })
+        .single();
+
+    return checkError(response);
+}
+
+export async function createParticipant(participant) {
+    const response = await client
+        .from('participants')
+        .insert({
+            ...participant,
+            user_id: client.auth.session().user.id,
+        });
+
+    return checkError(response);
+}
+
+// everything below here is from the template
 export async function getUser() {
     return client.auth.session();
 }
@@ -16,7 +47,7 @@ export async function checkAuth() {
 
 export async function redirectIfLoggedIn() {
     if (await getUser()) {
-        location.replace('./other-page');
+        location.replace('./workshops');
     }
 }
 
@@ -41,3 +72,4 @@ export async function logout() {
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
+
