@@ -72,3 +72,13 @@ export async function logout() {
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
+
+export function renderParticipant(participant) {
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+
+    p.textContent = participant.name;
+    div.append(p);
+
+    return div;
+}
